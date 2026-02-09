@@ -16,6 +16,7 @@ export class AuthService {
         if (users.length > 0) {
           throw new Error('Email already exists');
         }
+        console.log("ksdlj");
         return this.http.post<User>(`${this.baseApiUrl}/users`, payload);
       }),map(user => {
         this.saveUserToLocalStorage(user);
@@ -35,6 +36,7 @@ export class AuthService {
         if(users.length === 0 ){
           throw new Error('Invalid email or password');
         }
+        users[0].password = '';
         this.saveUserToLocalStorage(users[0]);
         return users[0];
       })

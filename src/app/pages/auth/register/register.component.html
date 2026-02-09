@@ -1,25 +1,200 @@
-<p>register</p>
+<div class="min-h-screen w-full flex bg-white">
+    <!-- Left Side - Form -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 animate-fade-in-left">
+        <div class="w-full max-w-md space-y-8">
+            <!-- Header -->
+            <div class="text-center lg:text-left">
+                <div class="flex justify-center lg:justify-start mb-6">
+                    <a routerLink="/" class="flex items-center gap-2 group cursor-pointer">
+                        <div
+                            class="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-200 group-hover:scale-105 transition-transform">
+                            <span class="text-white font-bold">J</span>
+                        </div>
+                        <span
+                            class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">JobFinder</span>
+                    </a>
+                </div>
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900">Create account</h2>
+                <p class="mt-2 text-gray-500">Join thousands of professionals growing their careers.</p>
+            </div>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div>
-        <label for="firstName">First Name</label>
-        <input id="firstName" formControlName="firstName" type="text">
-        <small *ngIf="form.get('firstName')?.touched && form.get('firstName')?.invalid">First Name is required</small>
+            <!-- Error Message -->
+            @if (errorMsg) {
+            <div class="bg-red-50 to-transparent border-l-4 border-red-500 p-4 rounded-r-lg animate-shake">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-red-700">{{ errorMsg }}</p>
+                    </div>
+                </div>
+            </div>
+            }
+
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-8 space-y-6">
+                <div class="space-y-5">
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- First Name -->
+                        <div>
+                            <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First
+                                Name</label>
+                            <input id="firstName" type="text" formControlName="firstName"
+                                class="block w-full px-4 py-3 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                [class.border-red-300]="form.get('firstName')?.touched && form.get('firstName')?.invalid"
+                                placeholder="John">
+                            @if (form.get('firstName')?.touched && form.get('firstName')?.invalid) {
+                            <p class="mt-1 text-xs text-red-600">Required</p>
+                            }
+                        </div>
+
+                        <!-- Last Name -->
+                        <div>
+                            <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                            <input id="lastName" type="text" formControlName="lastName"
+                                class="block w-full px-4 py-3 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                [class.border-red-300]="form.get('lastName')?.touched && form.get('lastName')?.invalid"
+                                placeholder="Doe">
+                            @if (form.get('lastName')?.touched && form.get('lastName')?.invalid) {
+                            <p class="mt-1 text-xs text-red-600">Required</p>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M16 12a4 4 0 10-8 0 4 4 0 018 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                                </svg>
+                            </div>
+                            <input id="email" type="email" formControlName="email"
+                                class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                [class.border-red-300]="form.get('email')?.touched && form.get('email')?.invalid"
+                                placeholder="Enter your email">
+                        </div>
+                        @if (form.get('email')?.touched && form.get('email')?.invalid) {
+                        <p class="mt-1 text-sm text-red-600 pl-1">Please enter a valid email address.</p>
+                        }
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                            </div>
+                            <input id="password" type="password" formControlName="password"
+                                class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                                [class.border-red-300]="form.get('password')?.touched && form.get('password')?.invalid"
+                                placeholder="••••••••">
+                        </div>
+                        @if (form.get('password')?.touched && form.get('password')?.invalid) {
+                        <p class="mt-1 text-sm text-red-600 pl-1">Password is required (min 6 characters).</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="space-y-4">
+                    <button type="submit" [disabled]="loading"
+                        class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg shadow-blue-500/30 text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all transform active:scale-[0.98]">
+                        @if (loading) {
+                        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                        Creating account...
+                        } @else {
+                        Create Account
+                        }
+                    </button>
+
+                    <button type="button"
+                        class="w-full flex justify-center items-center gap-2 py-3.5 px-4 border border-gray-200 rounded-xl shadow-sm bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors">
+                        <svg class="h-5 w-5" viewBox="0 0 24 24">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#4285F4" />
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#34A853" />
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                                fill="#FBBC05" />
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                fill="#EA4335" />
+                        </svg>
+                        Sign up with Google
+                    </button>
+                </div>
+
+                <div class="text-center mt-6">
+                    <p class="text-sm text-gray-600">
+                        Already have an account?
+                        <a routerLink="/login"
+                            class="font-semibold text-blue-600 hover:text-blue-500 transition-colors">Log in</a>
+                    </p>
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <label for="lastName">Last Name</label>
-        <input id="lastName" formControlName="lastName" type="text">
-        <small *ngIf="form.get('lastName')?.touched && form.get('lastName')?.invalid">Last Name is required</small>
+
+    <!-- Right Side - Visual -->
+    <div class="hidden lg:block relative w-0 lg:w-1/2 bg-blue-600 overflow-hidden">
+        <!-- Background Image -->
+        <img src="https://images.unsplash.com/photo-1542435503-956c469947f6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+            alt="Office meeting" class="absolute inset-0 w-full h-full object-cover">
+
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/80 to-indigo-900/80 mix-blend-multiply"></div>
+
+        <div class="absolute inset-0 flex items-center justify-center p-16">
+            <div class="max-w-lg relative">
+                <!-- Decorative blobs -->
+                <div class="absolute -top-12 -left-12 w-24 h-24 bg-white/10 rounded-full blur-xl animate-pulse"></div>
+                <div class="absolute -bottom-12 -right-12 w-32 h-32 bg-blue-400/20 rounded-full blur-xl"></div>
+
+                <div
+                    class="bg-white/10 backdrop-blur-lg border border-white/20 p-8 rounded-3xl shadow-2xl animate-fade-in-up delay-200">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="flex -space-x-2 overflow-hidden">
+                            <div
+                                class="h-10 w-10 rounded-full bg-blue-400 border-2 border-white flex items-center justify-center text-white font-bold text-xs">
+                                JD</div>
+                            <div
+                                class="h-10 w-10 rounded-full bg-purple-400 border-2 border-white flex items-center justify-center text-white font-bold text-xs">
+                                AS</div>
+                            <div
+                                class="h-10 w-10 rounded-full bg-pink-400 border-2 border-white flex items-center justify-center text-white font-bold text-xs">
+                                MK</div>
+                        </div>
+                        <p class="text-blue-50 text-sm font-medium">Join our growing community</p>
+                    </div>
+
+                    <h3 class="text-2xl font-bold text-white mb-4">"Unlock your potential with the right opportunities."
+                    </h3>
+                    <p class="text-blue-50 leading-relaxed">Create your profile today and let top companies find you.
+                        Your next big break is waiting.</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <label for="email">Email</label>
-        <input id="email" formControlName="email" type="email">
-        <small *ngIf="form.get('email')?.touched && form.get('email')?.invalid">Valid Email is required</small>
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <input id="password" formControlName="password" type="password">
-        <small *ngIf="form.get('password')?.touched && form.get('password')?.invalid">Password is required (min 6 characters)</small>
-    </div>
-    <button type="submit" class="bg-amber-700 py-2 px-1 rounded-2xl" [disabled]="loading">{{loading ? 'Registering...' : 'Register'}}</button>
-</form>
+</div>

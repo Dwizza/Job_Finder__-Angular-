@@ -6,6 +6,13 @@
       "lastName": "errahili",
       "email": "oussama@gmail.com",
       "password": "123456"
+    },
+    {
+      "id": "3580",
+      "firstName": "said",
+      "lastName": "qsdz",
+      "email": "said@gmail.com",
+      "password": "123456"
     }
   ],
   "favoritesOffers": [],
