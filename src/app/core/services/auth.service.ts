@@ -41,8 +41,4 @@ export class AuthService {
   saveUserToLocalStorage(user: User) {
     localStorage.setItem('user', JSON.stringify(user));
   }
-
-  logout() {
-    localStorage.removeItem('user');
-  }
 }
