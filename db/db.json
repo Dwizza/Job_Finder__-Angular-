@@ -1,0 +1,13 @@
+{
+  "users": [
+    {
+      "id": "8de1",
+      "firstName": "oussama",
+      "lastName": "errahili",
+      "email": "oussama@gmail.com",
+      "password": "123456"
+    }
+  ],
+  "favoritesOffers": [],
+  "applications": []
+}
