@@ -19,15 +19,10 @@ export class AuthService {
         console.log("ksdlj");
         return this.http.post<User>(`${this.baseApiUrl}/users`, payload);
       }),map(user => {
-        this.saveUserToLocalStorage(user);
         return user;
       })
     );
    
-  }
-
-  saveUserToLocalStorage(user: User) {
-    localStorage.setItem('user', JSON.stringify(user));
   }
 
   login(email: string, password: string) {
@@ -43,5 +38,11 @@ export class AuthService {
     )
   }
 
-  
+  saveUserToLocalStorage(user: User) {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  logout() {
+    localStorage.removeItem('user');
+  }
 }
