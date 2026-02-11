@@ -1,32 +1,36 @@
 export interface Job {
-  id: number;
-  name: string;
-  short_name: string;
-  type: string;
-  model_type: string;
-  publication_date: string;
-  contents: string;
+  id: string;
+  __CLASS__: string;
 
-  locations: {
-    name: string;
-  }[];
+  title: string;
+  description: string;
 
-  categories: any[];
+  salary_min: number;
+  salary_max: number;
+  salary_is_predicted: string;
 
-  levels: {
-    name: string;
-    short_name: string;
-  }[];
+  latitude: number;
+  longitude: number;
 
-  tags: any[];
+  redirect_url: string;
+  adref: string;
 
-  refs: {
-    landing_page: string;
+  created: string;
+
+  category: {
+    tag: string;
+    label: string;
+    __CLASS__: string;
+  };
+
+  location: {
+    __CLASS__: string;
+    display_name: string;
+    area: string[];
   };
 
   company: {
-    id: number;
-    short_name: string;
-    name: string;
+    display_name: string;
+    __CLASS__: string;
   };
 }

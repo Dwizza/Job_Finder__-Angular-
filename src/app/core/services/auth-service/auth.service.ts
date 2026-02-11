@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../../models/user.model';
+import { User, UserLogin } from '../../models/user.model';
 import { map, switchMap } from 'rxjs';
 
 @Injectable({
@@ -25,8 +25,8 @@ export class AuthService {
 
   }
 
-  login(email: string, password: string) {
-    return this.http.get<User[]>(`${this.baseApiUrl}/users?email=${email}&password=${password}`).pipe(
+  login(payload: UserLogin) {
+    return this.http.get<User[]>(`${this.baseApiUrl}/users?email=${payload.email}&password=${payload.password}`).pipe(
       map(users => {
         if (users.length === 0) {
           throw new Error('Invalid email or password');
@@ -41,4 +41,5 @@ export class AuthService {
   saveUserToLocalStorage(user: User) {
     localStorage.setItem('user', JSON.stringify(user));
   }
+
 }

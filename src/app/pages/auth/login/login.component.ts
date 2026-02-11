@@ -34,9 +34,11 @@ export class LoginComponent {
     }
     this.loading = true;
 
-    const email = this.form.value.email!;
-    const password = this.form.value.password!;
-    this.authService.login(email, password).subscribe({
+    const payload = {
+      email: this.form.value.email!,
+      password: this.form.value.password!
+    }
+    this.authService.login(payload).subscribe({
       next: () => {
         this.loading = false;
         this.router.navigate(['/']);
