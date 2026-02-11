@@ -1,1 +1,5 @@
-<p class="text-6xl font-bold underline text-center text-amber-700">job works!</p>
+<app-nav-bar></app-nav-bar>
+<app-search ></app-search>
+<div class="jobs-grid">
+    <app-job-card *ngFor="let job of jobs" [job]="job"></app-job-card>
+</div>
