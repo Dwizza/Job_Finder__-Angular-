@@ -1,31 +1,39 @@
-<div class="search-container">
-    <div class="search-box">
-        <div class="input-group">
-            <div class="icon-wrapper">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-            </div>
-            <input type="text" placeholder="Job title, keywords, or company">
+<div
+    class="max-w-4xl mx-auto bg-white p-2 rounded-2xl shadow-xl shadow-blue-100/50 border border-gray-100 flex flex-col md:flex-row gap-2 animate-fade-in-up delay-300">
+    <div class="flex-1 relative group">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
         </div>
-
-        <div class="divider"></div>
-
-        <div class="input-group">
-            <div class="icon-wrapper">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-            </div>
-            <input type="text" placeholder="City, state, or remote">
-        </div>
-
-        <button class="search-btn">
-            Search
-        </button>
+        <input type="text" [(ngModel)]="keyword"
+            class="block w-full pl-11 pr-4 py-3.5 bg-transparent border-none rounded-xl text-gray-900 placeholder-gray-400 focus:ring-0 text-base"
+            placeholder="Job title, keywords, or company">
     </div>
+
+    <div class="w-px bg-gray-100 hidden md:block my-2"></div>
+
+    <div class="flex-1 relative group">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+        </div>
+        <select [(ngModel)]="location"
+            class="block w-full pl-11 pr-4 py-3.5 bg-transparent border-none rounded-xl text-gray-900 focus:ring-0 text-base appearance-none cursor-pointer">
+            <option value="" disabled selected class="text-gray-400">City, state, or remote</option>
+            <option *ngFor="let item of locations" [value]="item.value">{{ item.key | titlecase }}</option>
+        </select>
+    </div>
+
+    <button (click)="onSearchClick()"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 px-8 rounded-xl transition-all duration-300 shadow-md hover:shadow-blue-500/30 flex items-center justify-center">
+        Search Jobs
+    </button>
 </div>

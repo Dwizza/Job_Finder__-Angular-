@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ErrorHandler, OnInit } from '@angular/core';
 import { JobService } from '../../../core/services/job-service/job.service';
 import { Job } from '../../../core/models/job.model';
 import { JobCardComponent } from "../../../shared/components/job-card/job-card.component";
@@ -17,6 +17,7 @@ import { debounceTime, distinctUntilChanged, filter, map, Subject, switchMap, ta
 export class JobComponent implements OnInit {
   jobs: Job[] = [];
   loading = false;
+  errorMsg = '';
   skeletonItems = new Array(6); // Show 6 skeleton cards while loading
 
   constructor(private jobService: JobService) { }
@@ -26,8 +27,31 @@ export class JobComponent implements OnInit {
     this.jobService.getJobs().subscribe((jobs) => {
       this.jobs = jobs;
       this.loading = false;
-      console.log(jobs);
+      // console.log(this.jobs);
     });
+  }
+
+  onSearch(searchData: { keyword: string, location: string }) {
+    this.errorMsg = '';
+    if (!searchData.keyword) {
+      this.jobs = []
+      this.errorMsg = "enter the keyword"
+      return
+    }
+    this.loading = true
+    this.jobService.searchJob(searchData.keyword, searchData.location).subscribe({
+      next: (jobs) => {
+        this.jobs = jobs
+        this.loading = false
+        console.log(this.jobs);
+      },
+      error: () => {
+        this.jobs = []
+        this.errorMsg = "Something went wrong"
+        this.loading = false
+      }
+    })
+
   }
 
 
