@@ -1,58 +1,82 @@
-<div class="job-card">
-    <div class="card-header">
-        <div class="company-logo">
-            {{ job.company.display_name.charAt(0) | uppercase }}
-        </div>
-        <div class="header-actions">
-            <button class="btn-icon favorite" aria-label="Save Job">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+<div
+    class="group relative h-full flex flex-col justify-between bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-indigo-200/50 hover:-translate-y-2 transition-all duration-300">
+
+    <!-- Top Section -->
+    <div>
+        <div class="flex justify-between items-start mb-6">
+            <!-- Logo -->
+            <div
+                class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                <span class="text-xl font-black text-indigo-600 truncate px-2 select-none">
+                    {{ job.company.display_name.charAt(0) | uppercase }}
+                </span>
+            </div>
+
+            <!-- Actions -->
+            <button
+                class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-pink-50 hover:text-pink-500 transition-colors shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
             </button>
         </div>
+
+        <!-- Content -->
+        <div class="space-y-4 mb-6">
+            <div>
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">{{ job.company.display_name
+                    }}</span>
+                <h3 class="text-xl font-bold text-slate-900 mt-1 leading-tight group-hover:text-indigo-600 transition-colors line-clamp-2"
+                    [title]="job.title">
+                    {{ job.title }}
+                </h3>
+            </div>
+
+            <div class="space-y-2">
+                <div class="flex items-center gap-2 text-slate-500 text-sm font-medium"
+                    *ngIf="job.location.display_name">
+                    <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z">
+                        </path>
+                    </svg>
+                    <span class="truncate">{{ job.location.display_name }}</span>
+                </div>
+                <div class="flex items-center gap-2 text-slate-500 text-sm font-medium" *ngIf="job.salary_min">
+                    <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                        </path>
+                    </svg>
+                    <span>{{ job.salary_min | number:'1.0-0' }} - {{ job.salary_max | number:'1.0-0' }}</span>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 pt-2">
+                <span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold uppercase tracking-wide"
+                    *ngIf="job.category.label">{{ job.category.label }}</span>
+                <span
+                    class="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-xs font-bold uppercase tracking-wide">Full
+                    Time</span>
+            </div>
+        </div>
     </div>
 
-    <div class="card-body">
-        <span class="company-name">{{ job.company.display_name }}</span>
-        <h3 class="job-title" [title]="job.title">{{ job.title }}</h3>
-
-        <div class="job-meta">
-            <div class="meta-item" *ngIf="job.location.display_name">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                {{ job.location.display_name }}
-            </div>
-            <div class="meta-item" *ngIf="job.salary_min">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="1" x2="12" y2="23"></line>
-                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                </svg>
-                {{ job.salary_min | number:'1.0-0' }} - {{ job.salary_max | number:'1.0-0' }}
-            </div>
+    <!-- Footer -->
+    <div class="pt-6 border-t border-slate-50 flex items-center justify-between mt-auto">
+        <div class="flex flex-col">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Posted</span>
+            <span class="text-xs font-semibold text-slate-700">{{ job.created | date:'MMM d' }}</span>
         </div>
-
-        <div class="job-tags">
-            <span class="tag category" *ngIf="job.category.label">{{ job.category.label }}</span>
-            <span class="tag type">Full Time</span>
-        </div>
-    </div>
-
-    <div class="card-footer">
-        <div class="post-date">
-            <span class="label">Posted</span>
-            <span class="value">{{ job.created | date:'mediumDate' }}</span>
-        </div>
-        <a [href]="job.redirect_url" target="_blank" class="btn-apply">
-            Apply Now
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
+        <a [href]="job.redirect_url" target="_blank"
+            class="px-5 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-xl shadow-lg shadow-slate-900/10 hover:bg-indigo-600 hover:shadow-indigo-600/20 transition-all flex items-center gap-2 group/btn">
+            Apply
+            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3">
+                </path>
             </svg>
         </a>
     </div>
