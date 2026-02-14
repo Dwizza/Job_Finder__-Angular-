@@ -5,7 +5,6 @@ import { JobCardComponent } from "../../../shared/components/job-card/job-card.c
 import { NgFor, NgIf } from '@angular/common';
 import { NavBarComponent } from "../../../shared/components/nav-bar/nav-bar.component";
 import { SearchComponent } from "../../../shared/components/search/search.component";
-import { debounceTime, distinctUntilChanged, filter, map, Subject, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-job',
@@ -18,41 +17,73 @@ export class JobComponent implements OnInit {
   jobs: Job[] = [];
   loading = false;
   errorMsg = '';
-  skeletonItems = new Array(6); // Show 6 skeleton cards while loading
+  skeletonItems = new Array(6);
+  resetKey = 0;
+
+  page = 1;
+  pageSize = 9;
+  canNext = true;
+
+  lastSearch: { keyword: string; location: string } | null = null;
 
   constructor(private jobService: JobService) { }
 
   ngOnInit(): void {
+    this.loadPage(1);
+  }
+
+  loadPage(p: number) {
+    if (p < 1) return;
+
+    this.page = p;
     this.loading = true;
-    this.jobService.getJobs().subscribe((jobs) => {
-      this.jobs = jobs;
-      this.loading = false;
-      // console.log(this.jobs);
+    this.errorMsg = '';
+
+    const req$ = this.lastSearch
+      ? this.jobService.searchJob(this.lastSearch.keyword, this.lastSearch.location, this.page, this.pageSize)
+      : this.jobService.getJobs(this.page, this.pageSize);
+
+    req$.subscribe({
+      next: (jobs) => {
+        this.jobs = jobs;
+        this.canNext = (jobs.length === this.pageSize);
+        this.loading = false;
+      },
+      error: () => {
+        this.jobs = [];
+        this.errorMsg = "Something went wrong";
+        this.loading = false;
+      }
     });
   }
 
   onSearch(searchData: { keyword: string, location: string }) {
     this.errorMsg = '';
-    if (!searchData.keyword) {
-      this.jobs = []
-      this.errorMsg = "enter the keyword"
-      return
-    }
-    this.loading = true
-    this.jobService.searchJob(searchData.keyword, searchData.location).subscribe({
-      next: (jobs) => {
-        this.jobs = jobs
-        this.loading = false
-        console.log(this.jobs);
-      },
-      error: () => {
-        this.jobs = []
-        this.errorMsg = "Something went wrong"
-        this.loading = false
-      }
-    })
 
+    if (!searchData.keyword) {
+      this.jobs = [];
+      this.errorMsg = "enter the keyword";
+      return;
+    }
+
+    this.lastSearch = { keyword: searchData.keyword, location: searchData.location };
+
+    this.loadPage(1);
   }
 
+  prev() {
+    if (this.page > 1) this.loadPage(this.page - 1);
+  }
 
+  next() {
+    if (this.canNext) this.loadPage(this.page + 1);
+  }
+
+  resetToJobs() {
+    this.lastSearch = null;
+    this.errorMsg = '';
+    this.resetKey++;
+    this.loadPage(1);
+  }
 }
+

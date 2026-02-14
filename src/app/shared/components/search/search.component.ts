@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { NgFor, TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -36,8 +36,16 @@ export class SearchComponent {
 
   locations = Object.entries(location).map(([key, value]) => ({ key, value }));
 
+  @Input() resetKey = 0;
   @Output() search = new EventEmitter<{ keyword: string, location: string }>();
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['resetKey']) {
+      this.keyword = '';
+      this.location = '';
+    }
+  }
+   
   onSearchClick() {
     this.search.emit({ keyword: this.keyword, location: this.location });
   }

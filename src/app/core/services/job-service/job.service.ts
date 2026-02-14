@@ -13,22 +13,24 @@ export class JobService {
 
   constructor(private http: HttpClient) { }
 
-  getJobs() {
-    return this.http.get<Job[]>(`https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${environment.appId}&app_key=${environment.appKey}&results_per_page=9`).pipe(
-      map((response: any) => response.results)
-    );
+  getJobs(page: number, resultsPerPage: number = 9) {
+    return this.http
+      .get<any>(`https://api.adzuna.com/v1/api/jobs/us/search/${page}?app_id=${environment.appId}&app_key=${environment.appKey}&results_per_page=${resultsPerPage}&sort_by=date`)
+      .pipe(
+        map((response: any) => response.results as Job[])
+      );
   }
 
-  searchJob(keyword: string, location: string) {
-    return this.http.get<Job[]>(`https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${environment.appId}&app_key=${environment.appKey}&what=${keyword}&where=${location}`).pipe(
-      map((res: any) => res.results),
-      map((jobs: Job[]) => {
-        const k = keyword.toLowerCase();
-        return jobs.filter(j =>
-          ((j.title) + '').toLowerCase().includes(k)
-        );
-      })
-    );
-  }
+searchJob(keyword: string, location: string, page: number, resultsPerPage: number = 9) {
+  return this.http.get<any>(
+    `https://api.adzuna.com/v1/api/jobs/us/search/${page}?app_id=${environment.appId}&app_key=${environment.appKey}&results_per_page=${resultsPerPage}&what=${keyword}&where=${location}&sort_by=date`
+  ).pipe(
+    map((res: any) => res.results),
+    map((jobs: Job[]) => {
+      const k = keyword.toLowerCase();
+      return jobs.filter(j => ((j.title) + '').toLowerCase().includes(k));
+    })
+  );
+}
 
 }

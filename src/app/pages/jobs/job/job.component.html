@@ -1,5 +1,15 @@
 <app-nav-bar></app-nav-bar>
-<app-search (search)="onSearch($event)"></app-search>
+<div>
+    <app-search [resetKey]="resetKey" (search)="onSearch($event)"></app-search>
+    <button (click)="resetToJobs()"
+        class="flex items-center px-5 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Reset
+    </button>
+
+</div>
 <!-- Error Alert -->
 <div *ngIf="errorMsg"
     class="max-w-4xl mx-auto mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg flex items-center gap-3 animate-fade-in">
@@ -45,4 +55,27 @@
         </div>
     </ng-container>
     <app-job-card *ngFor="let job of jobs" [job]="job"></app-job-card>
+
+<div class="flex justify-center items-center gap-4 mt-10 col-span-full" *ngIf="!loading && jobs.length">
+    <button (click)="prev()" [disabled]="page === 1"
+        class="flex items-center px-5 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Previous
+    </button>
+
+    <div class="px-4 py-2 bg-slate-50 border border-slate-100 rounded-lg">
+        <span class="text-sm font-bold text-slate-600">Page {{ page }}</span>
+    </div>
+
+    <button (click)="next()" [disabled]="!canNext"
+        class="flex items-center px-5 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm">
+        Next
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+    </button>
+</div>
+
 </div>

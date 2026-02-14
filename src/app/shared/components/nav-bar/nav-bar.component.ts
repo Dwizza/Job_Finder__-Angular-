@@ -10,6 +10,7 @@ import { RouterLinkActive, Router, RouterLink } from '@angular/router';
 })
 export class NavBarComponent {
   isMenuOpen = false;
+  isDropdownOpen = false;
 
   constructor(private router: Router) { }
   isLoggedIn(): boolean {
@@ -19,8 +20,18 @@ export class NavBarComponent {
   logout() {
     localStorage.removeItem('user');
     this.router.navigate(['/']);
+    this.isDropdownOpen = false;
+    this.isMenuOpen = false;
   }
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  closeDropdown() {
+    this.isDropdownOpen = false;
   }
 }
