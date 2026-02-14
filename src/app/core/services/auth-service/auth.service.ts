@@ -8,6 +8,7 @@ import { map, switchMap } from 'rxjs';
 })
 export class AuthService {
   private readonly baseApiUrl = 'http://localhost:3001';
+  user: User | null = null;
 
   constructor(private http: HttpClient) { }
   register(payload: User) {
@@ -16,7 +17,6 @@ export class AuthService {
         if (users.length > 0) {
           throw new Error('Email already exists');
         }
-        console.log("ksdlj");
         return this.http.post<User>(`${this.baseApiUrl}/users`, payload);
       }), map(user => {
         return user;
@@ -31,9 +31,11 @@ export class AuthService {
         if (users.length === 0) {
           throw new Error('Invalid email or password');
         }
-        users[0].password = '';
-        this.saveUserToLocalStorage(users[0]);
-        return users[0];
+        const user = users[0];
+
+        const { password, ...safeUser } = user as any;
+        this.saveUserToLocalStorage(safeUser);
+        return safeUser;
       })
     )
   }
@@ -42,4 +44,20 @@ export class AuthService {
     localStorage.setItem('user', JSON.stringify(user));
   }
 
+  editProfile(payload: User) {
+    return this.http.patch<User>(`${this.baseApiUrl}/users/${payload.id}`, payload).pipe(
+      map(user => {
+        this.saveUserToLocalStorage(user);
+        return user;
+      })
+    )
+  }
+
+  getCurrentUser() {
+    const user = localStorage.getItem('user');
+    if (user) {
+      return JSON.parse(user);
+    }
+    return null;
+  }
 }
