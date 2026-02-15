@@ -71,7 +71,7 @@
             </ng-container>
 
             <!-- Actual Job Cards -->
-            <app-job-card *ngFor="let job of jobs" [job]="job" class="h-full"></app-job-card>
+            <app-job-card *ngFor="let job of jobs" [job]="job" class="h-full" (apply)="onApply($event)"></app-job-card>
 
             <!-- Pagination Actions (Full Width) -->
             <div class="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center items-center gap-6 mt-16"

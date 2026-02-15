@@ -1,0 +1,155 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header Section -->
+        <div class="text-center mb-12">
+            <h1
+                class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-fuchsia-600 sm:text-5xl sm:tracking-tight lg:text-6xl">
+                My Applications
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-slate-500">
+                Track and manage your job application status.
+            </p>
+        </div>
+
+        <!-- Loading State -->
+        <div *ngIf="loading" class="flex justify-center items-center py-20">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        </div>
+
+        <!-- Error State -->
+        <div *ngIf="!loading && errorMsg" class="bg-red-50 border-l-4 border-red-500 p-4 mb-8 rounded-r-lg">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-red-700">{{ errorMsg }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="!loading && apps.length === 0 && !errorMsg" class="text-center py-20">
+            <svg class="mx-auto h-24 w-24 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <h3 class="mt-2 text-sm font-bold text-slate-900">No applications yet</h3>
+            <p class="mt-1 text-sm text-slate-500">Start applying to jobs to see them listed here.</p>
+            <div class="mt-6">
+                <a routerLink="/jobs"
+                    class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-bold rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
+                    Browse Jobs
+                </a>
+            </div>
+        </div>
+
+        <!-- Applications Grid -->
+        <div *ngIf="!loading && apps.length > 0" class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div *ngFor="let app of apps"
+                class="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 overflow-hidden flex flex-col">
+                <!-- Card Header -->
+                <div class="p-6 pb-4 border-b border-slate-50">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1"
+                                title="{{ app.title }}">
+                                {{ app.title }}
+                            </h3>
+                            <div class="flex items-center mt-1 text-sm text-slate-500">
+                                <svg class="flex-shrink-0 mr-1.5 h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                                <span class="line-clamp-1">{{ app.company }}</span>
+                            </div>
+                            <div class="flex items-center mt-1 text-sm text-slate-500">
+                                <svg class="flex-shrink-0 mr-1.5 h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <span class="line-clamp-1">{{ app.location }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Status Badge -->
+                        <div class="flex flex-col items-end gap-2">
+                            <span [ngClass]="{
+                    'bg-yellow-100 text-yellow-800': app.status === 'en_attente',
+                    'bg-green-100 text-green-800': app.status === 'accepte',
+                    'bg-red-100 text-red-800': app.status === 'refuse'
+                  }" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wide">
+                                {{ app.status.replace('_', ' ') }}
+                            </span>
+                            <a [href]="app.url" target="_blank"
+                                class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center">
+                                Original Job
+                                <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                    </path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Status Select -->
+                    <div class="mt-4">
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Update
+                            Status</label>
+                        <div class="relative">
+                            <select [(ngModel)]="app.status" (change)="changeStatus(app, app.status)"
+                                class="block w-full pl-3 pr-10 py-2 text-sm border-slate-200 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-xl bg-slate-50 text-slate-700 transition-colors hover:bg-white cursor-pointer appearance-none">
+                                <option *ngFor="let s of statuses" [value]="s">{{ s.replace('_', ' ') | titlecase }}
+                                </option>
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes Section -->
+                <div class="p-6 pt-4 flex-1 flex flex-col">
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">My
+                        Notes</label>
+                    <div class="relative flex-1">
+                        <textarea [(ngModel)]="app.notes" rows="4"
+                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-slate-200 rounded-xl bg-slate-50 hover:bg-white transition-colors p-3 resize-none"
+                            placeholder="Add private notes about this application..."></textarea>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center">
+                        <button (click)="remove(app)"
+                            class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-bold rounded-lg text-red-600 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
+                            <svg class="mr-1.5 h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                </path>
+                            </svg>
+                            Remove
+                        </button>
+                        <button (click)="saveNotes(app)"
+                            class="inline-flex items-center px-4 py-2 border border-transparent text-xs font-bold rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform active:scale-95 transition-all">
+                            Save Notes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

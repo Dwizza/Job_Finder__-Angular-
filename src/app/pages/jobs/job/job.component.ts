@@ -5,6 +5,9 @@ import { JobCardComponent } from "../../../shared/components/job-card/job-card.c
 import { NgFor, NgIf } from '@angular/common';
 import { NavBarComponent } from "../../../shared/components/nav-bar/nav-bar.component";
 import { SearchComponent } from "../../../shared/components/search/search.component";
+import { ApplicationService } from '../../../core/services/application-service/application.service';
+import { Router } from '@angular/router';
+import { Application } from '../../../core/models/application.model';
 
 @Component({
   selector: 'app-job',
@@ -26,7 +29,9 @@ export class JobComponent implements OnInit {
 
   lastSearch: { keyword: string; location: string } | null = null;
 
-  constructor(private jobService: JobService) { }
+  constructor(private jobService: JobService, 
+    private appService: ApplicationService, 
+    private router: Router) { }
 
   ngOnInit(): void {
     this.loadPage(1);
@@ -40,13 +45,15 @@ export class JobComponent implements OnInit {
     this.errorMsg = '';
 
     const req$ = this.lastSearch
-      ? this.jobService.searchJob(this.lastSearch.keyword, this.lastSearch.location, this.page, this.pageSize)
+      ? this.jobService.searchJob(this.lastSearch.keyword, this.lastSearch.location, this.pageSize)
       : this.jobService.getJobs(this.page, this.pageSize);
 
     req$.subscribe({
       next: (jobs) => {
         this.jobs = jobs;
         this.canNext = (jobs.length === this.pageSize);
+        console.log(jobs);
+        
         this.loading = false;
       },
       error: () => {
@@ -84,6 +91,54 @@ export class JobComponent implements OnInit {
     this.errorMsg = '';
     this.resetKey++;
     this.loadPage(1);
+  }
+
+  getCurrentUser() {
+    const raw = localStorage.getItem('user');    
+    return raw ? JSON.parse(raw) : null;
+  }
+
+  onApply(job: any) {
+    const user = this.getCurrentUser();
+    if (!user) {
+      this.errorMsg = 'Please login to apply.';
+      this.router.navigate(['/login'])
+      return;
+    }
+
+    const offerId = String(job.id);
+
+    this.appService.findOne(user.id, offerId).subscribe({
+      next: (existing) => {
+        if (existing.length > 0) {
+          this.errorMsg = 'You already applied to this job.';
+          return;
+        }
+          
+        const payload: Application = {
+          user_id: user.id,
+          offer_id: offerId,
+          api_source: 'adzuna',
+          title: job.title,
+          company: job.company?.display_name ?? '',
+          location: job.location?.display_name ?? '',
+          url: job.redirect_url,
+          status: 'en_attente',
+          notes: '',
+          date_added: new Date().toISOString()
+        };
+
+        this.appService.add(payload).subscribe({
+          next: () => {
+            this.router.navigate(['/applications']);
+          },
+          error: () => {
+            this.errorMsg = 'Failed to apply.';
+          }
+        });
+      },
+      error: () => this.errorMsg = 'Failed to apply.'
+    });
   }
 }
 

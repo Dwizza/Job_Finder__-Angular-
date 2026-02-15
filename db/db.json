@@ -16,5 +16,32 @@
     }
   ],
   "favoritesOffers": [],
-  "applications": []
+  "applications": [
+    {
+      "id": "ec3e",
+      "user_id": "8de1",
+      "offer_id": "5631269061",
+      "api_source": "adzuna",
+      "title": "Driver gig - Earn on your schedule",
+      "company": "Uber",
+      "location": "US",
+      "url": "https://www.adzuna.com/land/ad/5631269061?se=5IICj8MK8RGbzfd7K5QMXQ&utm_medium=api&utm_source=4d55542e&v=96191CD5233BE21C12BF94CC52966E7E9554DFAB",
+      "status": "en_attente",
+      "notes": "",
+      "date_added": "2026-02-15T23:10:48.426Z"
+    },
+    {
+      "id": "8e37",
+      "user_id": "8de1",
+      "offer_id": "5631269009",
+      "api_source": "adzuna",
+      "title": "ASC Lead RN - Pre/Post PACU",
+      "company": "MCSC",
+      "location": "Charlotte, Mecklenburg County",
+      "url": "https://www.adzuna.com/details/5631269009?utm_medium=api&utm_source=4d55542e",
+      "status": "en_attente",
+      "notes": "",
+      "date_added": "2026-02-15T23:10:54.605Z"
+    }
+  ]
 }

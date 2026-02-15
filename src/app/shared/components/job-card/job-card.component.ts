@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Job } from '../../../core/models/job.model';
 
@@ -11,4 +11,9 @@ import { Job } from '../../../core/models/job.model';
 })
 export class JobCardComponent {
   @Input() job!: Job;
+  @Output() apply = new EventEmitter<Job>();
+
+  onApplyClick(){
+    this.apply.emit(this.job);
+  }
 }
