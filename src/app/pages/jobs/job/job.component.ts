@@ -45,7 +45,7 @@ export class JobComponent implements OnInit {
     this.errorMsg = '';
 
     const req$ = this.lastSearch
-      ? this.jobService.searchJob(this.lastSearch.keyword, this.lastSearch.location, this.pageSize)
+      ? this.jobService.searchJob(this.page, this.lastSearch.keyword, this.lastSearch.location, this.pageSize)
       : this.jobService.getJobs(this.page, this.pageSize);
 
     req$.subscribe({

@@ -12,6 +12,7 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent, pathMatch: 'full' },
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: 'jobs', component: JobComponent, pathMatch: 'full', canActivate: [authGuardGuard] },
-    {path: 'profile', component: ProfileComponent, pathMatch: 'full', canActivate: [authGuardGuard] },
-    {path: 'applications', component: ApplicationsComponent, pathMatch: 'full', canActivate: [authGuardGuard] }
+    { path: 'profile', component: ProfileComponent, pathMatch: 'full', canActivate: [authGuardGuard] },
+    { path: 'applications', component: ApplicationsComponent, pathMatch: 'full', canActivate: [authGuardGuard] },
+    { path: 'favorites', loadComponent: () => import('./pages/favorites/favorites.component').then(m => m.FavoritesComponent), canActivate: [authGuardGuard] }
 ];

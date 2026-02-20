@@ -21,9 +21,9 @@ export class JobService {
       );
   }
 
-  searchJob(keyword: string, location: string,resultsPerPage: number = 9) {
+  searchJob(page: number, keyword: string, location: string,resultsPerPage: number = 9) {
     return this.http.get<any>(
-      `https://api.adzuna.com/v1/api/jobs/us/search?app_id=${environment.appId}&app_key=${environment.appKey}&results_per_page=${resultsPerPage}&what=${keyword}&where=${location}&sort_by=date`
+      `https://api.adzuna.com/v1/api/jobs/us/search/${page}?app_id=${environment.appId}&app_key=${environment.appKey}&results_per_page=${resultsPerPage}&title_only=${keyword}&where=${location}&sort_by=date`
     ).pipe(
       map((res: any) => res.results),
       map((jobs: Job[]) => {

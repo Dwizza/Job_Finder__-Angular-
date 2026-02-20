@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth-service/auth.service';
-
+import { Store } from '@ngrx/store';
+import { loadFavorites } from '../../../store/favorites/favorites.actions';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
+  private store = inject(Store);
 
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -39,8 +41,14 @@ export class LoginComponent {
       password: this.form.value.password!
     }
     this.authService.login(payload).subscribe({
-      next: () => {
+      next: (response: any) => { // Assuming response might contain user or we check localStorage
         this.loading = false;
+        // Check localStorage to be sure, or use response if it returns the user object
+        const userStr = localStorage.getItem('user');
+        if (userStr) {
+          const user = JSON.parse(userStr);
+          this.store.dispatch(loadFavorites({ userId: user.id }));
+        }
         this.router.navigate(['/']);
       },
       error: (err: any) => {

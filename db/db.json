@@ -15,7 +15,56 @@
       "password": "123456"
     }
   ],
-  "favoritesOffers": [],
+  "favoritesOffers": [
+    {
+      "id": "4ce2",
+      "userId": "8de1",
+      "offerId": "5633225742",
+      "title": "Senior Talent Acquisition Specialist",
+      "company": "Boeing",
+      "location": "North Charleston, Charleston County"
+    },
+    {
+      "id": "f627",
+      "userId": "8de1",
+      "offerId": "5633225731",
+      "title": "Middle/High School Reading Intervention Teacher 26-27",
+      "company": "Equality Charter School",
+      "location": "US"
+    },
+    {
+      "id": "76e1",
+      "userId": "3580",
+      "offerId": "5633225729",
+      "title": "Diesel Mechanic ‐ Heavy Equipment / Cranes",
+      "company": "Edwards",
+      "location": "Wilmington, New Hanover County"
+    },
+    {
+      "id": "ffc8",
+      "userId": "3580",
+      "offerId": "5633225731",
+      "title": "Middle/High School Reading Intervention Teacher 26-27",
+      "company": "Equality Charter School",
+      "location": "US"
+    },
+    {
+      "id": "2d7b",
+      "userId": "3580",
+      "offerId": "5633225742",
+      "title": "Senior Talent Acquisition Specialist",
+      "company": "Boeing",
+      "location": "North Charleston, Charleston County"
+    },
+    {
+      "id": "97a6",
+      "userId": "3580",
+      "offerId": "5638990243",
+      "title": "Border Patrol Agent (BPA) - Entry Level",
+      "company": "United States Customs and Border Protection",
+      "location": "Clayton, Clayton County"
+    }
+  ],
   "applications": [
     {
       "id": "ec3e",
@@ -26,7 +75,7 @@
       "company": "Uber",
       "location": "US",
       "url": "https://www.adzuna.com/land/ad/5631269061?se=5IICj8MK8RGbzfd7K5QMXQ&utm_medium=api&utm_source=4d55542e&v=96191CD5233BE21C12BF94CC52966E7E9554DFAB",
-      "status": "en_attente",
+      "status": "accepte",
       "notes": "",
       "date_added": "2026-02-15T23:10:48.426Z"
     },
@@ -42,6 +91,19 @@
       "status": "en_attente",
       "notes": "",
       "date_added": "2026-02-15T23:10:54.605Z"
+    },
+    {
+      "id": "8817",
+      "user_id": "3580",
+      "offer_id": "5631269061",
+      "api_source": "adzuna",
+      "title": "Driver gig - Earn on your schedule",
+      "company": "Uber",
+      "location": "US",
+      "url": "https://www.adzuna.com/land/ad/5631269061?se=gIOiusQK8RGQH41Ys9a60Q&utm_medium=api&utm_source=4d55542e&v=96191CD5233BE21C12BF94CC52966E7E9554DFAB",
+      "status": "accepte",
+      "notes": "sdzsdz",
+      "date_added": "2026-02-15T23:19:10.716Z"
     }
   ]
 }
